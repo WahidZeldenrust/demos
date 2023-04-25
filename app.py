@@ -1,17 +1,13 @@
-from flask import Flask
+from flask import Flask, request, render_template
+
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return '<h1>Dit is een CI/CD pipeline test voor ilionx!!!!!</h1>'
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        text = request.form['text']
+        return render_template('output.html', text=text)
+    return render_template('input.html')
 
-@app.route('/version')
-def get_version():
-    return '<h1>App version : <b>2.0</b></h1>'
-
-@app.route('/test')
-def get_test():
-    return '<h1>You are accessing /test endpoint</h1>'
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+if __name__ == '__main__':
+    app.run(debug=True)
